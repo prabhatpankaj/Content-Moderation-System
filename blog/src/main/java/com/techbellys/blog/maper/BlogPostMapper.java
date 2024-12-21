@@ -14,7 +14,10 @@ public class BlogPostMapper {
         BlogPost blogPost = new BlogPost();
         blogPost.setId(blogPostDto.getId());
         blogPost.setTitle(blogPostDto.getTitle());
+        blogPost.setPendingTitle(blogPostDto.getPendingTitle());
         blogPost.setContent(blogPostDto.getContent());
+        blogPost.setPendingContent(blogPostDto.getPendingContent());
+        blogPost.setStatus(blogPostDto.getStatus());
 
         // Map author details
         if (blogPostDto.getAuthor() != null) {
@@ -24,8 +27,6 @@ public class BlogPostMapper {
             blogPost.setAuthor(author);
         }
 
-        blogPost.setCreatedAt(LocalDateTime.now());
-        blogPost.setUpdatedAt(LocalDateTime.now());
         return blogPost;
     }
 
@@ -33,7 +34,10 @@ public class BlogPostMapper {
         BlogPostDto dto = new BlogPostDto();
         dto.setId(blogPost.getId());
         dto.setTitle(blogPost.getTitle());
+        dto.setPendingTitle(blogPost.getPendingTitle());
         dto.setContent(blogPost.getContent());
+        dto.setPendingContent(blogPost.getPendingContent());
+        dto.setStatus(blogPost.getStatus());
 
         // Map author details
         if (blogPost.getAuthor() != null) {

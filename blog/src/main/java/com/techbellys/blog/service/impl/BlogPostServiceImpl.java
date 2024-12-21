@@ -2,6 +2,7 @@ package com.techbellys.blog.service.impl;
 
 import com.techbellys.blog.dto.BlogPostDto;
 import com.techbellys.blog.entity.BlogPost;
+import com.techbellys.blog.enums.Status;
 import com.techbellys.blog.maper.BlogPostMapper;
 import com.techbellys.blog.repository.BlogPostRepository;
 import com.techbellys.blog.service.BlogPostService;
@@ -35,6 +36,7 @@ public class BlogPostServiceImpl implements BlogPostService {
         blogPost.setAuthor(author);
         blogPost.setCreatedAt(LocalDateTime.now());
         blogPost.setUpdatedAt(LocalDateTime.now());
+        blogPost.setStatus(Status.DRAFT);
 
         // Save the blog post
         BlogPost savedPost = blogPostRepository.save(blogPost);
@@ -56,21 +58,48 @@ public class BlogPostServiceImpl implements BlogPostService {
 
     @Override
     public BlogPostDto updateBlogPost(String id, BlogPostDto blogPostDto, Authentication authentication) {
+        // Extract the authenticated user's details
         AppUserDto author = userUtil.extractUserFromAuth(authentication);
 
+        // Retrieve the blog post to update
         BlogPost blogPost = blogPostRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Blog post not found"));
+
+        // Ensure that the user updating the post is the author
         if (!blogPost.getAuthor().getId().equals(author.getId())) {
             throw new RuntimeException("Unauthorized to update this blog post");
         }
-        blogPost.setTitle(blogPostDto.getTitle());
-        blogPost.setContent(blogPostDto.getContent());
-        blogPost.setAuthor(blogPostDto.getAuthor());
+
+        // Update the `updatedAt` timestamp
         blogPost.setUpdatedAt(LocalDateTime.now());
 
+        // Handle updates based on the provided status
+        if (blogPostDto.getStatus() != null && blogPostDto.getStatus() == Status.DRAFT) {
+            // Directly update `title` and `content` if the status is DRAFT
+            if (blogPostDto.getTitle() != null) {
+                blogPost.setTitle(blogPostDto.getTitle());
+            }
+            if (blogPostDto.getContent() != null) {
+                blogPost.setContent(blogPostDto.getContent());
+            }
+            blogPost.setStatus(Status.DRAFT);
+        } else {
+            // Store `title` and `content` for moderation if not in DRAFT
+            if (blogPostDto.getTitle() != null) {
+                blogPost.setPendingTitle(blogPostDto.getTitle());
+                blogPost.setStatus(Status.PENDING_MODERATION);
+            }
+            if (blogPostDto.getContent() != null) {
+                blogPost.setPendingContent(blogPostDto.getContent());
+                blogPost.setStatus(Status.PENDING_MODERATION);
+            }
+        }
+
+        // Save and return the updated blog post
         BlogPost updatedPost = blogPostRepository.save(blogPost);
         return blogPostMapper.toDto(updatedPost);
     }
+
 
     @Override
     public void deleteBlogPost(String id, Authentication authentication) {
