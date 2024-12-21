@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: content-moderation
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+      auto-index-creation: false
+      connect-timeout: 10000
+      socket-timeout: 10000
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+security:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    issuer: Content Moderation API
+
+mongock:
+  migration-scan-package: com.techbellys.mongo.changelogs
