@@ -51,8 +51,8 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public Page<BlogPostDto> getAllBlogPosts(Pageable pageable) {
-        return blogPostRepository.findAll(pageable)
+    public Page<BlogPostDto> getAllBlogPosts(Pageable pageable,Status status) {
+        return blogPostRepository.findAllByStatus(status, pageable)
                 .map(blogPostMapper::toDto);
     }
 

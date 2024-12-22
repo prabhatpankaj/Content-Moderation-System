@@ -1,6 +1,7 @@
 package com.techbellys.controller;
 
 import com.techbellys.blog.dto.BlogPostDto;
+import com.techbellys.blog.enums.Status;
 import com.techbellys.blog.service.BlogPostService;
 import com.techbellys.constants.ApiEndpoints;
 import com.techbellys.response.ApiResponse;
@@ -40,13 +41,18 @@ public class BlogPostController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<BlogPostDto>>> getAllBlogPosts(
+    public ResponseEntity<ApiResponse<ApiResponse.PaginatedData<BlogPostDto>>> getAllBlogPosts(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        page = page>0 ? page-1 : page;
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "APPROVED") Status status
+    ) {
+        page = Math.max(page - 1, 0); // Adjust for zero-based pagination
         Pageable pageable = PageRequest.of(page, size);
-        Page<BlogPostDto> blogPosts = blogPostService.getAllBlogPosts(pageable);
 
+        // Fetch blog posts filtered by status
+        Page<BlogPostDto> blogPosts = blogPostService.getAllBlogPosts(pageable, status);
+
+        // Return response with ApiResponse.success(Page)
         return ResponseEntity.ok(ApiResponse.success(blogPosts));
     }
 
