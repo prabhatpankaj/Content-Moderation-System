@@ -22,9 +22,9 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
-    @PostMapping(ApiEndpoints.FROM_S3)
+    @PostMapping(ApiEndpoints.RAG)
     public ResponseEntity<Object> processQuery(@Valid @RequestBody QueryRequest query) {
-        QueryResponse response = chatService.processQueryUsingS3(query);
+        QueryResponse response = chatService.processQuery(query);
         return ResponseEntity.ok(response);
     }
 }

@@ -7,10 +7,12 @@ import com.techbellys.blog.maper.BlogPostMapper;
 import com.techbellys.blog.repository.BlogPostRepository;
 import com.techbellys.blog.service.BlogPostService;
 import com.techbellys.dto.AppUserDto;
+import com.techbellys.utility.bedrock.knowledgebase.KnowledgeBaseSyncHelper;
 import com.techbellys.utility.bedrock.service.ContentModerationByBedrockService;
 import com.techbellys.utility.comprehend.service.ContentModerationByComprehendService;
 import com.techbellys.utils.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -39,6 +41,15 @@ public class BlogPostServiceImpl implements BlogPostService {
 
     @Autowired
     private ContentModerationByBedrockService moderateContentByClaude;
+
+    @Value("${knowledge_base.blog.knowledgeBaseId}")
+    private String knowledgeBaseId;
+
+    @Value("${knowledge_base.blog.dataSourceId}")
+    private String dataSourceId;
+
+    @Autowired
+    private KnowledgeBaseSyncHelper knowledgeBaseSyncHelper;
 
     @Override
     public BlogPostDto createBlogPost(BlogPostDto blogPostDto, Authentication authentication) {
@@ -159,6 +170,12 @@ public class BlogPostServiceImpl implements BlogPostService {
 
                 blogPostRepository.save(blogPost);
                 logger.info("Moderation completed. Final status: {}", blogPost.getStatus());
+
+                String jsonContent = "{\"title\": \"" + blogPost.getTitle() + "\", \"content\": \"" + blogPost.getContent() + "\"}";
+
+                knowledgeBaseSyncHelper.ingestDocument(knowledgeBaseId, dataSourceId, blogPost.getId(), jsonContent);
+
+                logger.info("knowledgeBaseSync completed. Final status: {}", blogPost.getStatus());
             } catch (Exception e) {
                 logger.error("Error during background moderation", e);
                 blogPost.setStatus(Status.REJECTED);

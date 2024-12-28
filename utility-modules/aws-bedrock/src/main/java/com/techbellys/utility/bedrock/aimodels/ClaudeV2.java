@@ -1,6 +1,6 @@
 package com.techbellys.utility.bedrock.aimodels;
 
-import com.techbellys.utility.bedrock.helpers.Constants;
+import com.techbellys.helpers.Constants;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

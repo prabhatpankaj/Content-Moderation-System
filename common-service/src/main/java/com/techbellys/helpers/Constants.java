@@ -1,4 +1,4 @@
-package com.techbellys.utility.bedrock.helpers;
+package com.techbellys.helpers;
 
 public class Constants {
     // Model ID Constants
@@ -10,5 +10,4 @@ public class Constants {
     public static final String JURASSIC_MODEL_ID_MID = "ai21.j2-mid-v1";
     public static final String JURASSIC_MODEL_ID_ULTRA = "ai21.j2-ultra-v1";
     public static final String META_LLAMA_3_1_405B = "meta.llama3-1-405b-instruct-v1:0";
-    public static final String KNOWLEDGE_BASE_ID = "4NAGMHKDVC";
 }

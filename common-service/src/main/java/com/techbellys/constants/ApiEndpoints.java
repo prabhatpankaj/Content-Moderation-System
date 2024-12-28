@@ -16,6 +16,6 @@ public class ApiEndpoints {
 
     public static final String CHAT = "/api/v1/chat";
 
-    public static final String FROM_S3 = "/from-s3";
+    public static final String RAG = "/rag";
 
 }

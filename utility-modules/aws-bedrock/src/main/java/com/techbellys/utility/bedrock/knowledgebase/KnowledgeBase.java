@@ -1,6 +1,6 @@
 package com.techbellys.utility.bedrock.knowledgebase;
 
-import com.techbellys.utility.bedrock.helpers.Constants;
+import com.techbellys.helpers.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -17,27 +17,26 @@ import software.amazon.awssdk.services.bedrockagentruntime.model.RetrieveAndGene
 import software.amazon.awssdk.services.bedrockagentruntime.model.RetrievedReference;
 
 @Service
-public class S3KnowledgeBase {
+public class KnowledgeBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(S3KnowledgeBase.class);
+    private static final Logger logger = LoggerFactory.getLogger(KnowledgeBase.class);
 
     public static final String MODEL_ARN = Constants.CLAUDE_MODEL_ID_V2;
-    public static final String KNOWLEDGE_BASE_ID = Constants.KNOWLEDGE_BASE_ID;
 
     @Autowired
     private BedrockAgentRuntimeClient bedrockAgentClient;
 
-    public String process(String query) {
-        return invokeModelWithRAG(query);
+    public String process(String knowledgeBaseId, String query) {
+        return invokeModelWithRAG(knowledgeBaseId, query);
     }
 
-    private String invokeModelWithRAG(String query) {
+    private String invokeModelWithRAG(String knowledgeBaseId, String query) {
         logger.info("RAG - Invoke Knowledge Base and Model");
 
         try {
             // Config
             KnowledgeBaseRetrieveAndGenerateConfiguration kbConfig = KnowledgeBaseRetrieveAndGenerateConfiguration.builder()
-                    .knowledgeBaseId(KNOWLEDGE_BASE_ID)
+                    .knowledgeBaseId(knowledgeBaseId)
                     .modelArn(MODEL_ARN)
                     .build();
 
@@ -53,7 +52,6 @@ public class S3KnowledgeBase {
                     .input(input)
                     .retrieveAndGenerateConfiguration(config)
                     .build();
-
             // Response from Knowledge Base
             RetrieveAndGenerateResponse response = bedrockAgentClient.retrieveAndGenerate(request);
             logger.info("RAG - Response: {}", response);

@@ -40,6 +40,10 @@ aws:
       access-key: ${COMPREHEND_AWS_ACCESS_KEY}
       secret-key: ${COMPREHEND_AWS_SECRET_KEY}
 
+knowledge_base:
+  blog:
+    knowledgeBaseId: ${KNOWLEDGE_BASE_BLOG_ID}
+    dataSourceId: ${KNOWLEDGE_BASE_DATA_SOURCE_ID}
 
 mongock:
   migration-scan-package: com.techbellys.mongo.changelogs
