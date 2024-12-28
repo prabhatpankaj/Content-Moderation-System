@@ -59,6 +59,8 @@ public class BlogPostServiceImpl implements BlogPostService {
         blogPost.setAuthor(author);
         blogPost.setCreatedAt(LocalDateTime.now());
         blogPost.setUpdatedAt(LocalDateTime.now());
+        blogPost.setPendingTitle(blogPostDto.getTitle());
+        blogPost.setPendingContent(blogPostDto.getContent());
         blogPost.setStatus(Status.PENDING_MODERATION); // Set the initial status
 
         // Save the blog post and initiate background moderation

@@ -16,7 +16,7 @@ public class ChatServiceImpl implements ChatService {
     private static final Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     @Autowired
-    private KnowledgeBaseService chatRAGModelWrapperService;
+    private KnowledgeBaseService knowledgeBaseService;
 
     @Value("${knowledge_base.blog.knowledgeBaseId}")
     private String knowledgeBaseId;
@@ -25,7 +25,7 @@ public class ChatServiceImpl implements ChatService {
     public QueryResponse processQuery(QueryRequest query) {
         try {
             // Process the query using the service
-            String response = chatRAGModelWrapperService.processQuery(knowledgeBaseId,query.getQuery());
+            String response = knowledgeBaseService.processQuery(knowledgeBaseId,query.getQuery());
 
             // Return the response encapsulated in QueryResponse
             QueryResponse queryResponse = new QueryResponse();

@@ -24,7 +24,7 @@ public class KnowledgeBase {
     public static final String MODEL_ARN = Constants.CLAUDE_MODEL_ID_V2;
 
     @Autowired
-    private BedrockAgentRuntimeClient bedrockAgentClient;
+    private BedrockAgentRuntimeClient bedrockAgentRuntimeClient;
 
     public String process(String knowledgeBaseId, String query) {
         return invokeModelWithRAG(knowledgeBaseId, query);
@@ -53,7 +53,7 @@ public class KnowledgeBase {
                     .retrieveAndGenerateConfiguration(config)
                     .build();
             // Response from Knowledge Base
-            RetrieveAndGenerateResponse response = bedrockAgentClient.retrieveAndGenerate(request);
+            RetrieveAndGenerateResponse response = bedrockAgentRuntimeClient.retrieveAndGenerate(request);
             logger.info("RAG - Response: {}", response);
             logger.info("RAG - Output: {}", response.output().text());
             logger.info("RAG - Count of Citations: {}", (response.hasCitations() ? response.citations().size() : 0));
