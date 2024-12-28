@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/api/v1/account/login").permitAll()
                         .requestMatchers("/api/v1/account/register").permitAll()
+                        .requestMatchers("/api/v1/chat/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))

@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>app-service</artifactId>
+    <artifactId>chat-service</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -18,26 +18,8 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.techbellys</groupId>
-            <artifactId>common-service</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.techbellys</groupId>
-            <artifactId>authentication</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.techbellys</groupId>
-            <artifactId>blog</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.techbellys</groupId>
-            <artifactId>chat-service</artifactId>
+            <groupId>com.techbellys.utility</groupId>
+            <artifactId>aws-bedrock</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
