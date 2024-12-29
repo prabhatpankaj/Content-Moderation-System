@@ -44,6 +44,8 @@ knowledge_base:
   blog:
     knowledgeBaseId: ${KNOWLEDGE_BASE_BLOG_ID}
     dataSourceId: ${KNOWLEDGE_BASE_DATA_SOURCE_ID}
+    agentId: ${BLOG_AGENT_ID}
+    agentAliasId: ${BLOG_AGENT_ALIAS_ID}
 
 mongock:
   migration-scan-package: com.techbellys.mongo.changelogs

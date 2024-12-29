@@ -27,4 +27,12 @@ public class ChatController {
         QueryResponse response = chatService.processQuery(query);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping(ApiEndpoints.AGENT)
+    public ResponseEntity<Object> processQueryByAgent(@Valid @RequestBody QueryRequest query) {
+        QueryResponse response = chatService.processQueryByAgent(query);
+        return ResponseEntity.ok(response);
+    }
+
+
 }

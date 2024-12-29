@@ -18,4 +18,6 @@ public class ApiEndpoints {
 
     public static final String RAG = "/rag";
 
+    public static final String AGENT = "/agent";
+
 }
