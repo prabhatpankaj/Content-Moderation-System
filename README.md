@@ -60,10 +60,6 @@ Follow the steps below to get up and running with this repository:
    ```bash
    git clone -b base-project https://github.com/prabhatpankaj/Content-Moderation-System.git
 
-1. **Clone the Repository for Blog Post 2**  
+2. **Clone the Repository for Blog Post 2**  
    ```bash
    git clone -b content-moderation https://github.com/prabhatpankaj/Content-Moderation-System.git
-
-
-
-   
